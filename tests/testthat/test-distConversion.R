@@ -5,6 +5,11 @@ test_that("distConversion produces correct results", {
   expect_equal(distConversion(1, from = "miles", to = "km"),  1.609)
   expect_equal(distConversion(1, from = "nautical miles", to = "miles"),  1.151)
 
+  # Identity behavior
+  expect_equal(distConversion(1, from = "km", to = "km"),  1)
+  expect_equal(distConversion(1, from = "miles", to = "miles"),  1)
+  expect_equal(distConversion(1, from = "nautical miles", to = "nautical miles"),  1)
+
   # Random example cases
   set.seed(12)
   test.km <- runif(100, max = 100)
@@ -20,11 +25,14 @@ test_that("distConversion produces correct results", {
 
   expect_equal(distConversion(test.miles, from = "miles", to = "km"),  expected.km)
   expect_equal(distConversion(test.miles, from = "miles", to = "nautical miles"), expected.nm)
+
+  # Output type
+  expect_vector(distConversion(test.km, from = "km", to = "km"))
+  expect_type(distConversion(test.miles, from = "miles", to = "km"), type = "double")
+
 })
 
-test_that("distConversion behaves correctly", {
-
-  expect_vector(distConversion(1:100, from = "km", to = "km"))
+test_that("distConversion handles error correctly", {
 
   expect_length(distConversion(runif(100), to = "miles"), 100)
   expect_length(distConversion(runif(100), from = "nautical miles", to = "miles"), 100)

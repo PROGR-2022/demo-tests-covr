@@ -31,6 +31,12 @@ covr::report()
 # Same thing, wrapper from devtools
 devtools::test_coverage()
 
-# Missing coverage
+# Missing test coverage coverage display
 cov <- covr::package_coverage()
 covr::zero_coverage(cov)
+
+# Non-package environment with explicit file paths
+covr::file_coverage(
+  source_files = "R/distConversion.R",
+  test_files = "tests/testthat/test-distConversion.R"
+)
